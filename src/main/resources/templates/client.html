@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>测试页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .message {
+            width: 60%;
+            margin: 0 10px;
+            display: inline-block;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20px;
+            border-radius: 5px;
+            border: 1px solid #B3D33F;
+        }
+
+        .form {
+            width: 100%;
+            margin: 16px;
+            bottom: 300px;
+            left: 0;
+        }
+
+        .button {
+            height: 40px;
+            vertical-align: top;
+            width: 80px;
+            font-size: 20px;
+            border-radius: 5px;
+            border: none;
+            background: #B3D33F;
+            color: #fff;
+        }
+
+        .content {
+            margin: 20px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<form class="form">
+    <input type="text" placeholder="请输入发送的消息" class="message" id="message"/>
+    <input type="button" value="发送" id="send" class="button"/>
+    <input type="button" value="连接" id="connect" class="button"/>
+    <input type="button" value="关闭" id="close" class="button"/>
+</form>
+
+<ul id="content" class="content"></ul>
+
+<script>
+    var oUl = document.getElementById('content');
+    var oConnect = document.getElementById('connect');
+    var oSend = document.getElementById('send');
+    var oClose = document.getElementById('close');
+    var oInput = document.getElementById('message');
+    var ws = null;
+    oConnect.onclick = function () {
+        ws = new WebSocket('ws://' + document.location.host + '/websocket');
+        ws.onopen = function () {
+            oUl.innerHTML = "<li>客户端已连接</li>" + oUl.innerHTML;
+        }
+        ws.onmessage = function (evt) {
+            oUl.innerHTML = "<li>" + evt.data + "</li>" + oUl.innerHTML;
+        }
+        ws.onclose = function () {
+            oUl.innerHTML = "<li>客户端已断开连接</li>" + oUl.innerHTML;
+        };
+        ws.onerror = function (evt) {
+            oUl.innerHTML = "<li>" + evt.data + "</li>" + oUl.innerHTML;
+
+        };
+    };
+    oSend.onclick = function () {
+        if (ws) {
+            ws.send(oInput.value);
+        }
+    }
+
+    oClose.onclick = function () {
+        if (ws) {
+            ws.close()
+        }
+    }
+</script>
+</body>
+</html>
