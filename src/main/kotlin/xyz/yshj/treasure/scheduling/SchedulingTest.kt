@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled
 import xyz.yshj.treasure.bean.RespData
 import xyz.yshj.treasure.utils.InfoUtils
 import xyz.yshj.treasure.utils.get
+import xyz.yshj.treasure.utils.json
 import xyz.yshj.treasure.utils.post
 import xyz.yshj.treasure.websocket.WsUtils
 import java.text.SimpleDateFormat
@@ -71,7 +72,8 @@ class SchedulingTest {
                     resp.equips?.forEach {
 
                         if (it.eid != tmpEid) {
-                            WsUtils.sendInfo(InfoUtils.getSchool(it.school) + "&nbsp;&nbsp;&nbsp;&nbsp;价格:" + it.price + "&nbsp;&nbsp;&nbsp;&nbsp;收藏数:" + it.collect_num + "&nbsp;&nbsp;&nbsp;&nbsp;服务器:" + it.area_name + "-" + it.server_name + "&nbsp;&nbsp;&nbsp;&nbsp;剩余时间:" + it.time_left + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<a href= \"http://xyq.cbg.163.com/equip?s=${it.server_id}&eid=${it.eid}&o&equip_refer=1\" target=\"_blank\">详情</a>")
+//                            WsUtils.sendInfo(InfoUtils.getSchool(it.school) + "&nbsp;&nbsp;&nbsp;&nbsp;价格:" + it.price + "&nbsp;&nbsp;&nbsp;&nbsp;收藏数:" + it.collect_num + "&nbsp;&nbsp;&nbsp;&nbsp;服务器:" + it.area_name + "-" + it.server_name + "&nbsp;&nbsp;&nbsp;&nbsp;剩余时间:" + it.time_left + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<a href= \"http://xyq.cbg.163.com/equip?s=${it.server_id}&eid=${it.eid}&o&equip_refer=1\" target=\"_blank\">详情</a>")
+                            WsUtils.sendInfo(it.json())
                             tmpEid = it.eid
                         }
                     }

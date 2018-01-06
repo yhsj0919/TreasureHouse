@@ -55,7 +55,12 @@
 
 <ul id="content" class="content"></ul>
 
+<audio id="chatAudio">
+    <source src="http://data.huiyi8.com/2014/lxy/05/14/22.mp3" type="audio/mpeg"/>
+</audio>
+
 <script>
+    var chatAudio = document.getElementById('chatAudio');
     var oUl = document.getElementById('content');
     var oConnect = document.getElementById('connect');
     var oSend = document.getElementById('send');
@@ -68,7 +73,26 @@
             oUl.innerHTML = "<li>客户端已连接</li>" + oUl.innerHTML;
         }
         ws.onmessage = function (evt) {
-            oUl.innerHTML = "<li>" + evt.data + "</li>" + oUl.innerHTML;
+            var data = JSON.parse(evt.data)
+
+            var url = "http://xyq.cbg.163.com/equip?s=" + data.server_id + "&amp;" + "+eid=" + data['eid'] + "&amp;o&amp;equip_refer=1"
+
+            oUl.innerHTML = "<li>"
+                + getSchool(data.school)
+                + "&nbsp;&nbsp;&nbsp;&nbsp;价格:"
+                + data.price
+                + "&nbsp;&nbsp;&nbsp;&nbsp;收藏数:"
+                + data.collect_num
+                + "&nbsp;&nbsp;&nbsp;&nbsp;服务器:"
+                + data.area_name + "-" + data.server_name
+                + "&nbsp;&nbsp;&nbsp;&nbsp;剩余时间:"
+                + data.time_left + "&nbsp;&nbsp;&nbsp;&nbsp;"
+                + '<a href="' + url + '" target="_blank">详情</a>'
+                + "</li> <br/>" + oUl.innerHTML;
+
+            if (data.collect_num === 0) {
+                chatAudio.play()
+            }
         }
         ws.onclose = function () {
             oUl.innerHTML = "<li>客户端已断开连接</li>" + oUl.innerHTML;
@@ -83,12 +107,33 @@
             ws.send(oInput.value);
         }
     }
-
     oClose.onclick = function () {
         if (ws) {
             ws.close()
         }
     }
+
+    function getSchool(school) {
+        var schoolName = {
+            1: "大唐官府",
+            2: "化生寺",
+            3: "女儿村",
+            4: "方寸山",
+            5: "天宫",
+            6: "普陀山",
+            7: "龙宫",
+            8: "五庄观",
+            9: "狮驼岭",
+            10: "魔王寨",
+            11: "阴曹地府",
+            12: "盘丝洞",
+            13: "神木林",
+            14: "凌波城",
+            15: "无底洞"
+        }
+        return schoolName[school]
+    }
+
 </script>
 </body>
 </html>

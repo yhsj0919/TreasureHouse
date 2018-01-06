@@ -1,5 +1,6 @@
 package xyz.yshj.treasure.websocket
 
+import org.omg.CORBA.Object
 import java.io.IOException
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -26,6 +27,5 @@ object WsUtils {
             }
         }
     }
-
 
 }
