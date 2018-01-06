@@ -75,7 +75,9 @@
         ws.onmessage = function (evt) {
             var data = JSON.parse(evt.data)
 
-            var url = "http://xyq.cbg.163.com/equip?s=" + data.server_id + "&amp;" + "+eid=" + data['eid'] + "&amp;o&amp;equip_refer=1"
+            var url = "http://xyq.cbg.163.com/equip?s=" + data.server_id + "&amp;eid=" + data.eid + "&amp;o&amp;equip_refer=1"
+
+            alert(url)
 
             oUl.innerHTML = "<li>"
                 + getSchool(data.school)
