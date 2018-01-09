@@ -18,7 +18,7 @@ class ToModel<T>(private val _debug: Boolean, private val type: Type?) : Functio
 
     override fun apply(decodeData: String): Observable<T> {
         if (_debug) {
-//            println("返回的数据.." + decodeData)
+            println("返回的数据.." + decodeData)
         }
 
         return if (type?.typeName == "java.lang.String") {

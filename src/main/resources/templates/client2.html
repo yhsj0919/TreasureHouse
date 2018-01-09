@@ -101,8 +101,6 @@
 
             var tmpPrice = parseFloat(data.price)
 
-            var icon = "http://res.xyq.cbg.163.com/images/role_icon/small/" + data.icon + ".gif"
-
             var priceHtml = ""
 
             if (tmpPrice > 99999) {
@@ -116,12 +114,11 @@
             }
 
             oUl.innerHTML = '<li class="linkText">'
-                + '<img src="' + icon + '" width="50" height="50"/>'
                 + getSchool(data.school)
                 + "&nbsp;&nbsp;&nbsp;&nbsp;"
                 + data.area_name + "-" + data.server_name
                 + "&nbsp;&nbsp;&nbsp;&nbsp;"
-                + data.create_time
+                + data.time_left
                 + "&nbsp;&nbsp;&nbsp;&nbsp;收藏:"
                 + data.collect_num
                 + "<br/>"
