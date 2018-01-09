@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title>测试页面</title>
+    <title>梦幻助手</title>
     <style>
         * {
             margin: 0;
@@ -43,6 +43,28 @@
             margin: 20px;
             padding: 20px;
         }
+
+        .redtext {
+            color: #f2010b;
+        }
+
+        .greentext {
+            color: #69d348;
+        }
+
+        .bluetext {
+            color: #2668d3;
+        }
+
+        .purpletext {
+            color: #d339c2;
+        }
+
+        .linkText {
+            font-size: large;
+        }
+
+
     </style>
 </head>
 <body>
@@ -77,17 +99,33 @@
 
             var url = "http://xyq.cbg.163.com/equip?s=" + data.server_id + "&amp;eid=" + data.eid + "&amp;o&amp;equip_refer=1"
 
-            oUl.innerHTML = "<li>"
+            var tmpPrice = parseFloat(data.price)
+
+            var priceHtml = ""
+
+            if (tmpPrice > 99999) {
+                priceHtml = '<span class="purpletext">' + data.price + "</span>"
+            } else if (tmpPrice > 9999) {
+                priceHtml = '<span class="redtext">' + data.price + "</span>"
+            } else if (tmpPrice > 999) {
+                priceHtml = '<span class="greentext">' + data.price + "</span>"
+            } else if (tmpPrice > 0) {
+                priceHtml = '<span class="bluetext">' + data.price + "</span>"
+            }
+
+            oUl.innerHTML = '<li class="linkText">'
                 + getSchool(data.school)
-                + "&nbsp;&nbsp;&nbsp;&nbsp;价格:"
-                + data.price
-                + "&nbsp;&nbsp;&nbsp;&nbsp;收藏数:"
-                + data.collect_num
-                + "&nbsp;&nbsp;&nbsp;&nbsp;服务器:"
+                + "&nbsp;&nbsp;&nbsp;&nbsp;"
                 + data.area_name + "-" + data.server_name
-                + "&nbsp;&nbsp;&nbsp;&nbsp;剩余时间:"
-                + data.time_left + "&nbsp;&nbsp;&nbsp;&nbsp;"
-                + '<a href="' + url + '" target="_blank">详情</a>'
+                + "&nbsp;&nbsp;&nbsp;&nbsp;"
+                + data.time_left
+                + "&nbsp;&nbsp;&nbsp;&nbsp;收藏:"
+                + data.collect_num
+                + "<br/>"
+                + "价格:"
+                + priceHtml
+                + "&nbsp;&nbsp;&nbsp;&nbsp;"
+                + '<a href="' + url + '" target="_blank" class="linkText">去藏宝阁查看详情</a>'
                 + "</li> <br/>" + oUl.innerHTML;
 
             if (data.collect_num === 0) {
