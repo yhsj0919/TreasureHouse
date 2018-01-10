@@ -30,7 +30,7 @@ inline fun <reified T> String.get(): Observable<T> {
                 }
                 res.text
             }
-            .flatMap(ToModel<T>(true, type))
+            .flatMap(ToModel<T>(false, type))
             .subscribeOn(Schedulers.io())
 }
 
