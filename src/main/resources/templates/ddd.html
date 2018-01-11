@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>Title</title>
-    <link href="http://res.xyq.cbg.163.com/rc2ae00df6935de617e07f/css/pages.css" rel="stylesheet" type="text/css"
-          media="all"/>
-    <link href="http://res.xyq.cbg.163.com/rc2ae00df6935de617e07f/css/global.css" rel="stylesheet" type="text/css"
-          media="all"/>
+    <link href="/pages.css" rel="stylesheet" type="text/css" media="all"/>
 </head>
 <body>
-<table width="80%" class="tb01" cellspacing="0" cellpadding="0" border="0" style="background: aliceblue">
+<form class="form">
+    <input id="message" type="text" placeholder="请输入发送的消息" class="message"/>
+    <input id="send" type="button" value="发送" class="send"/>
+    <input id="connect" type="button" value="连接" class="open"/>
+    <input id="close" type="button" value="关闭" class="close"/>
+</form>
+
+<div class="info"></div>
+
+<table width="90%" class="tb01" cellspacing="0" cellpadding="0" border="0">
 
     <tr id="order_menu">
         <th width="54">角色</th>
@@ -30,7 +36,7 @@
     </tr>
     <tr>
         <td>
-            <img src="http://res.xyq.cbg.163.com/images/role_icon/small/6.gif" width="50" height="50">
+            <img src="http://res.xyq.cbg.163.com/images/role_icon/small/6.gif" width="50" height="50"/>
         </td>
         <td>阴曹地府</td>
         <td>69</td>

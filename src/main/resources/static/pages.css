@@ -1,0 +1,114 @@
+td, th {
+    text-align: center
+}
+
+.tb01 {
+    margin: 0 auto;
+    border: 1px solid #9EA0BF
+}
+
+.tb01 th, .tb01 td {
+    padding: 12px 9px;
+    border-bottom: 1px solid #9EA0BF;
+    font-size: 14px
+}
+
+/*表格颜色*/
+.tb01 tr {
+    background-color: #EDEDF4
+}
+
+/*表头颜色*/
+.tb01 th {
+    background-color: #9c9c9c;
+    padding: 6px 9px
+}
+
+.tb01 td {
+    line-height: 1.5em;
+    color: #333
+}
+
+.tip {
+    color: #ff5945
+}
+
+.p1000 {
+    color: #00f
+}
+
+.p10000 {
+    color: #00B400
+}
+
+.p100000 {
+    color: #F00
+}
+
+.p1000000 {
+    color: #F0F
+}
+
+.message {
+    width: 70%;
+    margin: 0;
+    display: inline-block;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #cdcdcd;
+}
+
+.form {
+    margin: 20px auto;
+    width: 90%;
+    /*bottom: 300px;*/
+    left: 0;
+}
+
+.send {
+    text-align: center;
+    height: 40px;
+    vertical-align: top;
+    width: 80px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    background: #9495d3;
+    color: #fff;
+}
+
+.open {
+    text-align: center;
+    height: 40px;
+    vertical-align: top;
+    width: 80px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    background: #7ed37a;
+    color: #fff;
+}
+
+.close {
+    text-align: center;
+    height: 40px;
+    vertical-align: top;
+    width: 80px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    background: #ff8e73;
+    color: #fff;
+}
+
+.info {
+    text-align: center;
+    margin: 20px auto;
+    width: 90%;
+    color: #ff5945;
+    height: 20px;
+}
+
