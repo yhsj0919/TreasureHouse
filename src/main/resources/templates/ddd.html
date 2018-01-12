@@ -15,86 +15,28 @@
 
 <div id="info" class="info"></div>
 
-<table width="90%" class="tb01" cellspacing="0" cellpadding="0" border="0">
+<table id="result" width="90%" class="tb01" cellspacing="0" cellpadding="0" border="0">
 
-    <tr id="order_menu">
+    <tr>
         <th width="54">角色</th>
         <th>门派</th>
         <th>等级</th>
-        <th>攻修</th>
-        <th>防修</th>
-        <th>法修</th>
-        <th>抗法</th>
-        <th>攻击控制</th>
-        <th>防御控制</th>
-        <th>法术控制</th>
-        <th>法抗控制</th>
+        <th>修炼</th>
+        <th>宝宝</th>
         <th>亮点</th>
         <th>价格</th>
         <th>服务器</th>
+        <th>首次上架</th>
         <th>出售剩余时间</th>
+        <th>收藏</th>
+        <th>详情</th>
     </tr>
-    <tr>
-        <td>
-            <img src="http://res.xyq.cbg.163.com/images/role_icon/small/6.gif" width="50" height="50"/>
-        </td>
-        <td>阴曹地府</td>
-        <td>69</td>
-        <td>9/20</td>
-        <td>9/20</td>
-        <td>6/20</td>
-        <td>9/20</td>
-        <td>9</td>
-        <td>0</td>
-        <td>3</td>
-        <td>0</td>
-        <td></td>
-        <td><span class="p10000">￥8888.00</span>
-        </td>
-        <td>山东4区-大明湖</td>
-        <td>13天23小时54分钟</td>
-    </tr>
+
 </table>
 
-
-<script>
-
-    var oConnect = document.getElementById('connect');
-    var oSend = document.getElementById('send');
-    var oClose = document.getElementById('close');
-    var oInput = document.getElementById('message');
-    var oInfo = document.getElementById('info');
-    var ws = null;
-    oConnect.onclick = function () {
-        ws = new WebSocket('ws://' + document.location.host + '/websocket');
-        ws.onopen = function () {
-            oInfo.innerText = "客户端已连接"
-        }
-        ws.onmessage = function (evt) {
-            var datas = eval(evt.data)
-            for (i in datas) {
-                oInfo.innerText += datas[i].server_name
-            }
-        }
-        ws.onclose = function () {
-            oInfo.innerText = "客户端已断开连接"
-        };
-        ws.onerror = function (evt) {
-            oInfo.innerText = evt.data
-        };
-    };
-    oSend.onclick = function () {
-        if (ws) {
-            ws.send(oInput.value);
-        }
-    }
-    oClose.onclick = function () {
-        if (ws) {
-            ws.close()
-        }
-    }
-
-</script>
-
+<audio id="chatAudio">
+    <source src="http://data.huiyi8.com/2014/lxy/05/14/22.mp3" type="audio/mpeg"/>
+</audio>
+<script src="/client.js"/>
 </body>
 </html>

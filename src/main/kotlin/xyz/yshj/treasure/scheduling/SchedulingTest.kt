@@ -66,23 +66,19 @@ open class SchedulingTest {
             tmpEid = ""
             return
         }
-        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=69&level_max=69&server_type=3&price_min=86000&act=recommd_by_role&page=1&count=2&search_type=overall_search_role"
+        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=69&level_max=69&server_type=3&price_min=86000&act=recommd_by_role&page=1&count=10&search_type=overall_search_role"
                 .get<RespData>()
                 .subscribe({ resp ->
 
-                    WsUtils.sendInfo(resp.equips!!.json())
-//                    resp.equips?.forEach {
-//
-//                        if (it.eid != tmpEid) {
-////                            WsUtils.sendInfo(InfoUtils.getSchool(it.school) + "&nbsp;&nbsp;&nbsp;&nbsp;价格:" + it.price + "&nbsp;&nbsp;&nbsp;&nbsp;收藏数:" + it.collect_num + "&nbsp;&nbsp;&nbsp;&nbsp;服务器:" + it.area_name + "-" + it.server_name + "&nbsp;&nbsp;&nbsp;&nbsp;剩余时间:" + it.time_left + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<a href= \"http://xyq.cbg.163.com/equip?s=${it.server_id}&eid=${it.eid}&o&equip_refer=1\" target=\"_blank\">详情</a>")
-//                            WsUtils.sendInfo(it.json())
-//                            tmpEid = it.eid
-//                        }
-//                    }
+                    if (resp.equips?.get(0)?.eid != tmpEid) {
+                        println("有新消息推送")
+                        WsUtils.sendInfo(resp.equips!!.json())
+                        tmpEid = resp.equips?.get(0)?.eid
+                    } else {
+                        println("不需要推送")
+                    }
                 }, {
                     it.printStackTrace()
                 })
-
-        println(">>>>>>>>>>>>>>>>>>>>>>>>>")
     }
 }

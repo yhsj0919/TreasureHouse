@@ -13,12 +13,12 @@ td, th {
     font-size: 14px
 }
 
-/*表格颜色*/
+/*琛ㄦ牸棰滆壊*/
 .tb01 tr {
     background-color: #EDEDF4
 }
 
-/*表头颜色*/
+/*琛ㄥご棰滆壊*/
 .tb01 th {
     background-color: #9c9c9c;
     padding: 6px 9px
@@ -112,3 +112,7 @@ td, th {
     height: 20px;
 }
 
+
+.linkText {
+    font-size: large;
+}
