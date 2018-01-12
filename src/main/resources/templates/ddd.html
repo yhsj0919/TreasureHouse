@@ -13,7 +13,7 @@
     <input id="close" type="button" value="关闭" class="close"/>
 </form>
 
-<div class="info"></div>
+<div id="info" class="info"></div>
 
 <table width="90%" class="tb01" cellspacing="0" cellpadding="0" border="0">
 
@@ -55,5 +55,46 @@
         <td>13天23小时54分钟</td>
     </tr>
 </table>
+
+
+<script>
+
+    var oConnect = document.getElementById('connect');
+    var oSend = document.getElementById('send');
+    var oClose = document.getElementById('close');
+    var oInput = document.getElementById('message');
+    var oInfo = document.getElementById('info');
+    var ws = null;
+    oConnect.onclick = function () {
+        ws = new WebSocket('ws://' + document.location.host + '/websocket');
+        ws.onopen = function () {
+            oInfo.innerText = "客户端已连接"
+        }
+        ws.onmessage = function (evt) {
+            var datas = eval(evt.data)
+            for (i in datas) {
+                oInfo.innerText += datas[i].server_name
+            }
+        }
+        ws.onclose = function () {
+            oInfo.innerText = "客户端已断开连接"
+        };
+        ws.onerror = function (evt) {
+            oInfo.innerText = evt.data
+        };
+    };
+    oSend.onclick = function () {
+        if (ws) {
+            ws.send(oInput.value);
+        }
+    }
+    oClose.onclick = function () {
+        if (ws) {
+            ws.close()
+        }
+    }
+
+</script>
+
 </body>
 </html>
