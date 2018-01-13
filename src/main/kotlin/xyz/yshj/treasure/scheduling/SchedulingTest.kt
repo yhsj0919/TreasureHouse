@@ -24,6 +24,8 @@ open class SchedulingTest {
 
     private var tmpEid: String? = ""
 
+    private var clientNum = 0;
+
 
     //    一个cron表达式有至少6个（也可能7个）有空格分隔的时间元素。
     //    按顺序依次为
@@ -66,14 +68,15 @@ open class SchedulingTest {
             tmpEid = ""
             return
         }
-        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=69&level_max=69&server_type=3&price_min=86000&act=recommd_by_role&page=1&count=10&search_type=overall_search_role"
+        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=69&level_max=69&server_type=3&price_min=86000&act=recommd_by_role&page=1&count=20&search_type=overall_search_role"
                 .get<RespData>()
                 .subscribe({ resp ->
 
-                    if (resp.equips?.get(0)?.eid != tmpEid) {
+                    if (resp.equips?.get(0)?.eid != tmpEid || WsUtils.onlineCount != clientNum) {
                         println("有新消息推送")
                         WsUtils.sendInfo(resp.equips!!.json())
                         tmpEid = resp.equips?.get(0)?.eid
+                        clientNum = WsUtils.onlineCount
                     } else {
                         println("不需要推送")
                     }

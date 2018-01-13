@@ -14,8 +14,12 @@ td, th {
 }
 
 /*表格颜色*/
-.tb01 tr {
+.oldSell {
     background-color: #EDEDF4
+}
+
+.firstSell {
+    background-color: #fff7c9
 }
 
 /*表头颜色*/
@@ -106,12 +110,11 @@ td, th {
 
 .info {
     text-align: center;
-    margin: 20px auto;
+    margin: 10px auto;
     width: 90%;
     color: #ff5945;
     height: 20px;
 }
-
 
 .linkText {
     font-size: large;

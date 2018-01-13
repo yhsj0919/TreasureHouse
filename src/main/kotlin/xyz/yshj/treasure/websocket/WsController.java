@@ -29,11 +29,9 @@ public class WsController {
         WsUtils.getWebSocketSet().add(this);     //加入set中
         addOnlineCount();           //在线数加1
         System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
-        try {
-            sendMessage(getOnlineCount() + ">>>>>>>>>>>>>>>>>");
-        } catch (IOException e) {
-            System.out.println("IO异常");
-        }
+
+        WsUtils.sendInfo("当前有" + getOnlineCount() + "人在线");
+
     }
 
     /**
@@ -43,6 +41,8 @@ public class WsController {
     public void onClose() {
         WsUtils.getWebSocketSet().remove(this);  //从set中删除
         subOnlineCount();           //在线数减1
+
+        WsUtils.sendInfo("有一连接关闭！当前在线人数为" + getOnlineCount());
         System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
@@ -53,10 +53,10 @@ public class WsController {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("来自客户端的消息:" + message + session.getId());
+        System.out.println("来自客户端 " + session.getId() + " 的消息:" + message);
 
         //群发消息
-        WsUtils.sendInfo("来自服务器的消息:" + message + session.getId());
+        WsUtils.sendInfo("来自 " + session.getId() + " 的消息:" + message);
 
     }
 

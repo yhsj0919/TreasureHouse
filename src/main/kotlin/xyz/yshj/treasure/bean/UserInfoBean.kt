@@ -130,7 +130,7 @@ data class UserInfoBean(
         //等级
         var level: Int = 0,
         //特效
-        var special_effect: Int = 0,
+//        var special_effect: Int = 0,
         //游戏订单编号
         var game_ordersn: String? = null,
         //装备图片

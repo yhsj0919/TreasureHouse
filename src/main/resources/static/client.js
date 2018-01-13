@@ -18,32 +18,34 @@ var tabHeard =
     '<th>亮点</th>' +
     '<th>价格</th>' +
     '<th>服务器</th>' +
+    '<th>收藏</th>' +
     '<th>首次上架</th>' +
     '<th>出售剩余时间</th>' +
-    '<th>收藏</th>' +
-    '<th>详情</th>' +
     '</tr>'
 
 oConnect.onclick = function () {
+    if (ws) {
+        alert("服务已连接")
+        return
+    }
+
     ws = new WebSocket('ws://' + document.location.host + '/websocket');
     ws.onopen = function () {
         oInfo.innerText = "客户端已连接"
     }
     ws.onmessage = function (evt) {
 
-        oInfo.innerText = "获取新的消息"
+        if (!isJSON(evt.data)) {
+            oInfo.innerText = evt.data
+            return
+        }
 
         var info = tabHeard
 
         var datas = eval(evt.data)
         for (i in datas) {
 
-            if (i == 0) {
-                if (datas[i].collect_num == 0) {
-                    chatAudio.play()
-                }
-            }
-
+            //价格
             var priceHtml = ""
 
             var tmpPrice = parseFloat(datas[i].price)
@@ -56,20 +58,52 @@ oConnect.onclick = function () {
             } else if (tmpPrice > 0) {
                 priceHtml = '<span class="p1000">' + datas[i].price + "</span>"
             }
-
+            //详情地址
             var url = "http://xyq.cbg.163.com/equip?s=" + datas[i].server_id + "&amp;eid=" + datas[i].eid + "&amp;o&amp;equip_refer=1"
 
+            //亮点
             var highlights = datas[i].highlights
             var highHtml = ""
-
             for (index in highlights) {
                 highHtml += highlights[index][0] + '<br/>'
             }
 
+            //是否首次上架
+            var sellingTime = Date.parse(new Date(datas[i].selling_time)) / 1000;
+            var createTime = Date.parse(new Date(datas[i].create_time)) / 1000;
+
+            var fistSell = ""
+            if ((Math.abs(createTime - sellingTime) <= 10)) {
+                var fistSell = "<span class='p100000'>是</span>"
+                info += '<tr class="firstSell" onclick="window.open(\'' + url + '\');">'
+            } else {
+                info += '<tr class="oldSell" onclick="window.open(\'' + url + '\');">'
+            }
+
+            //判断是否提醒
+            if (i == 0) {
+                if ((Math.abs(createTime - sellingTime) <= 10)) {
+                    chatAudio.play()
+                }
+            }
+
+            //获取头像ID
+            var iconId = 1
+            if (datas[i].icon > 12 && datas[i].icon < 25) {
+                iconId = datas[i].icon - 12
+            } else if (datas[i].icon > 211 && datas[i].icon < 223) {
+                iconId = datas[i].icon - 12
+            } else {
+                iconId = datas[i].icon
+            }
+
+            var icon = "http://res.xyq.cbg.163.com/images/role_icon/small/" + iconId + ".gif"
+
+
+            //消息拼装
             info +=
-                '<tr>' +
                 '<td>' +
-                '    <img src="http://res.xyq.cbg.163.com/images/role_icon/small/2.gif" width="50" height="50"/>' +
+                '    <img src="' + icon + '" width="50" height="50"/>' +
                 '</td>' +
                 '<td>' + getSchool(datas[i].school) + '</td>' +
                 '<td>' + datas[i].level + '</td>' +
@@ -82,10 +116,9 @@ oConnect.onclick = function () {
                 '<td>' + priceHtml +
                 '</td>' +
                 '<td>' + datas[i].area_name + "-" + datas[i].server_name + '</td>' +
-                '<td>' + datas[i].create_time + '</td>' +
-                '<td>' + datas[i].time_left + '</td>' +
                 '<td>' + datas[i].collect_num + '</td>' +
-                '<td>' + '<a href="' + url + '" target="_blank" class="linkText">去藏宝阁查看详情</a>' + '</td>' +
+                '<td>' + fistSell + '</td>' +
+                '<td>' + datas[i].time_left + '</td>' +
                 '</tr>'
 
         }
@@ -94,14 +127,18 @@ oConnect.onclick = function () {
     }
     ws.onclose = function () {
         oInfo.innerText = "客户端已断开连接"
+        ws = null
     };
     ws.onerror = function (evt) {
-        oInfo.innerText = evt.data
+        oInfo.innerText = "连接出错" + evt.data
+        ws = null
     };
 };
 oSend.onclick = function () {
     if (ws) {
         ws.send(oInput.value);
+    } else {
+        alert("请先连接服务")
     }
 }
 oClose.onclick = function () {
@@ -130,4 +167,26 @@ function getSchool(school) {
         15: "无底洞"
     }
     return schoolName[school]
+}
+
+/**
+ * 判断是不是json字符串
+ * @param str
+ * @returns {boolean}
+ */
+function isJSON(str) {
+    if (typeof str == 'string') {
+        try {
+            var obj = JSON.parse(str);
+            if (str.indexOf('{') > -1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (e) {
+            return false;
+        }
+    }
+    return false;
 }
