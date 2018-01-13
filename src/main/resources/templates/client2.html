@@ -101,6 +101,8 @@
 
             var tmpPrice = parseFloat(data.price)
 
+            var icon = "http://res.xyq.cbg.163.com/images/role_icon/small/" + data.icon + ".gif"
+
             var priceHtml = ""
 
             if (tmpPrice > 99999) {
@@ -114,13 +116,20 @@
             }
 
             oUl.innerHTML = '<li class="linkText">'
+                + '<img src="' + icon + '" width="50" height="50"/>'
                 + getSchool(data.school)
                 + "&nbsp;&nbsp;&nbsp;&nbsp;"
                 + data.area_name + "-" + data.server_name
                 + "&nbsp;&nbsp;&nbsp;&nbsp;"
-                + data.time_left
+                + data.create_time + "------->" + data.selling_time
                 + "&nbsp;&nbsp;&nbsp;&nbsp;收藏:"
                 + data.collect_num
+                + "<br/>"
+                //攻击防御法术法抗
+                + "修炼:"
+                + data.expt_gongji + "&nbsp;&nbsp;" + data.expt_fangyu + "&nbsp;&nbsp;" + data.expt_fashu + "&nbsp;&nbsp;" + data.expt_kangfa
+                + "&nbsp;&nbsp;&nbsp;&nbsp;宝宝:"
+                + data.bb_expt_gongji + "&nbsp;&nbsp;" + data.bb_expt_fangyu + "&nbsp;&nbsp;" + data.bb_expt_fashu + "&nbsp;&nbsp;" + data.bb_expt_kangfa
                 + "<br/>"
                 + "价格:"
                 + priceHtml

@@ -30,11 +30,11 @@ class ViewController {
         return ModelAndView("client")
     }
 
-    @RequestMapping(value = ["/test"], method = [RequestMethod.GET])
-    fun test(request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
-
-        return ModelAndView("ddd")
-    }
+//    @RequestMapping(value = ["/test"], method = [RequestMethod.GET])
+//    fun test(request: HttpServletRequest, response: HttpServletResponse): ModelAndView {
+//
+//        return ModelAndView("ddd")
+//    }
 
 
 }

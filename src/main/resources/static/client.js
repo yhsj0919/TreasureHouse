@@ -57,8 +57,14 @@ oConnect.onclick = function () {
                 priceHtml = '<span class="p1000">' + datas[i].price + "</span>"
             }
 
-
             var url = "http://xyq.cbg.163.com/equip?s=" + datas[i].server_id + "&amp;eid=" + datas[i].eid + "&amp;o&amp;equip_refer=1"
+
+            var highlights = datas[i].highlights
+            var highHtml = ""
+
+            for (index in highlights) {
+                highHtml += highlights[index][0] + '<br/>'
+            }
 
             info +=
                 '<tr>' +
@@ -71,7 +77,8 @@ oConnect.onclick = function () {
                 '</td>' +
                 '<td>' + datas[i].bb_expt_gongji + "&nbsp;&nbsp;" + datas[i].bb_expt_fangyu + "&nbsp;&nbsp;" + datas[i].bb_expt_fashu + "&nbsp;&nbsp;" + datas[i].bb_expt_kangfa +
                 '</td>' +
-                '<td></td>' +
+                '<td><span class="p1000">' + highHtml +
+                '</span></td>' +
                 '<td>' + priceHtml +
                 '</td>' +
                 '<td>' + datas[i].area_name + "-" + datas[i].server_name + '</td>' +
