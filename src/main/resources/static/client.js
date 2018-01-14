@@ -73,7 +73,7 @@ oConnect.onclick = function () {
             var createTime = Date.parse(new Date(datas[i].create_time)) / 1000;
 
             var fistSell = ""
-            if ((Math.abs(createTime - sellingTime) <= 10)) {
+            if ((Math.abs(createTime - sellingTime) <= 60)) {
                 var fistSell = "<span class='p100000'>是</span>"
                 info += '<tr class="firstSell" onclick="window.open(\'' + url + '\');">'
             } else {
@@ -82,7 +82,7 @@ oConnect.onclick = function () {
 
             //判断是否提醒
             if (i == 0) {
-                if ((Math.abs(createTime - sellingTime) <= 10)) {
+                if ((Math.abs(createTime - sellingTime) <= 60)) {
                     chatAudio.play()
                 }
             }
