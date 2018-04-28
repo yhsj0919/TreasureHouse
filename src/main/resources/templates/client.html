@@ -2,15 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="icon" href="http://xyq.cbg.163.com/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="http://xyq.cbg.163.com/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="http://xyq.cbg.163.com/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="http://xyq.cbg.163.com/favicon.ico" type="image/x-icon"/>
     <title>梦幻助手</title>
     <link href="/pages.css" rel="stylesheet" type="text/css" media="all"/>
 </head>
 <body>
 <form class="form">
-    <input id="message" type="text" placeholder="请输入发送的消息" class="message"/>
-    <input id="send" type="button" value="发送" class="send"/>
+    <input id="level_min" type="text" placeholder="等级" class="message"/>
+    -
+    <input id="level_max" type="text" placeholder="等级" class="message"/>
+
+    <input id="price_min" type="text" placeholder="价格" class="message"/>
+    -
+    <input id="price_max" type="text" placeholder="价格" class="message"/>
+
+    <input id="send" type="button" value="设置" class="send"/>
     <input id="connect" type="button" value="连接" class="open"/>
     <input id="close" type="button" value="关闭" class="close"/>
 </form>
@@ -19,7 +26,7 @@
 
 <table id="result" width="90%" class="tb01" cellspacing="0" cellpadding="0" border="0">
 
-    <tr>
+    <tr id="tab_title">
         <th width="54">角色</th>
         <th>门派</th>
         <th>等级</th>
@@ -29,7 +36,7 @@
         <th>价格</th>
         <th>服务器</th>
         <th>收藏</th>
-        <th>首次上架</th>
+        <th>上架时间</th>
         <th>出售剩余时间</th>
     </tr>
 

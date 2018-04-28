@@ -7,6 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.Observable
 import xyz.yshj.treasure.utils.HttpConfig.K_COOKIE
 import xyz.yshj.treasure.utils.HttpConfig.K_HEADER
+import java.text.SimpleDateFormat
 
 
 fun Any.json(): String {
@@ -52,6 +53,16 @@ inline fun <reified T> String.post(data: Map<String, String> = HashMap()): Obser
             .subscribeOn(Schedulers.newThread())
 //            .observeOn(JavaFxScheduler.platform())
 
+}
+
+fun String?.time(format: String = "yyyy-MM-dd HH:mm:ss", def: Long = 0): Long {
+    if (this == null) {
+        return def
+    }
+
+    val simpleDateFormat = SimpleDateFormat(format)
+    val date = simpleDateFormat.parse(this)
+    return date.time
 }
 
 

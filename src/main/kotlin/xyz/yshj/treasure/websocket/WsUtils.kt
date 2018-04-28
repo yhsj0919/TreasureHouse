@@ -9,6 +9,17 @@ object WsUtils {
     @JvmStatic
     var onlineCount = 0
 
+    @JvmStatic
+    var level_min = 69
+
+    @JvmStatic
+    var level_max = 69
+
+    @JvmStatic
+    var price_min = 86000
+    @JvmStatic
+    var price_max: Int? = null
+
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     @JvmStatic
     var webSocketSet = CopyOnWriteArraySet<WsController>()

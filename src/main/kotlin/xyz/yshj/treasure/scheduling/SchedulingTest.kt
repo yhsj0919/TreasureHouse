@@ -4,13 +4,12 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import xyz.yshj.treasure.bean.RespData
-import xyz.yshj.treasure.utils.InfoUtils
-import xyz.yshj.treasure.utils.get
-import xyz.yshj.treasure.utils.json
-import xyz.yshj.treasure.utils.post
+import xyz.yshj.treasure.bean.UserInfoBean
+import xyz.yshj.treasure.utils.*
 import xyz.yshj.treasure.websocket.WsUtils
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 定时任务
@@ -20,11 +19,7 @@ import java.util.*
 @EnableScheduling
 open class SchedulingTest {
 
-    private val dateFormat = SimpleDateFormat("HH:mm:ss")
-
-    private var tmpEid: String? = ""
-
-    private var clientNum = 0;
+    private var oldInfo = ArrayList<String?>()
 
 
     //    一个cron表达式有至少6个（也可能7个）有空格分隔的时间元素。
@@ -65,21 +60,52 @@ open class SchedulingTest {
     fun scheduler() {
 
         if (WsUtils.onlineCount == 0) {
-            tmpEid = ""
+            oldInfo.clear()
             return
         }
-        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=69&level_max=69&server_type=3&price_min=86000&act=recommd_by_role&page=1&count=20&search_type=overall_search_role"
+
+        val price_max = if (WsUtils.price_max != null) {
+            "&price_max=" + WsUtils.price_max
+        } else {
+            ""
+        }
+
+        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=${WsUtils.level_min}&level_max=${WsUtils.level_max}&server_type=3&price_min=${WsUtils.price_min}$price_max&act=recommd_by_role&page=1&count=20&search_type=overall_search_role"
                 .get<RespData>()
                 .subscribe({ resp ->
 
-                    if (resp.equips?.get(0)?.eid != tmpEid || WsUtils.onlineCount != clientNum) {
+                    val tmp = ArrayList<UserInfoBean>()
+
+                    resp
+                            .equips
+                            ?.reversed()
+                            ?.forEach {
+                                //是否首次上架
+
+                                val sellingTime = it.selling_time.time(def = 100) / 1000
+                                val createTime = it.create_time.time() / 1000
+
+                                if (Math.abs(createTime - sellingTime) <= 60) {
+
+                                    if (it.eid !in oldInfo) {
+                                        tmp.add(it)
+                                    }
+                                }
+                            }
+
+                    if (tmp.size > 0) {
+                        WsUtils.sendInfo(tmp.json())
                         println("有新消息推送")
-                        WsUtils.sendInfo(resp.equips!!.json())
-                        tmpEid = resp.equips?.get(0)?.eid
-                        clientNum = WsUtils.onlineCount
                     } else {
                         println("不需要推送")
                     }
+
+                    oldInfo.clear()
+                    resp.equips?.forEach {
+
+                        oldInfo.add(it.eid)
+                    }
+
                 }, {
                     it.printStackTrace()
                 })

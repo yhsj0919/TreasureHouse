@@ -1,9 +1,10 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.10'
+		kotlinVersion = '1.2.20'
 		springBootVersion = '1.5.9.RELEASE'
 	}
 	repositories {
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
 		mavenCentral()
 	}
 	dependencies {

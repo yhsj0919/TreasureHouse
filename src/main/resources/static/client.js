@@ -1,7 +1,10 @@
 var oConnect = document.getElementById('connect');
 var oSend = document.getElementById('send');
 var oClose = document.getElementById('close');
-var oInput = document.getElementById('message');
+var oLevelMin = document.getElementById('level_min');
+var oLevelMax = document.getElementById('level_max');
+var oPriceMin = document.getElementById('price_min');
+var oPriceMax = document.getElementById('price_max');
 var oInfo = document.getElementById('info');
 var oResult = document.getElementById('result');
 var chatAudio = document.getElementById('chatAudio');
@@ -9,7 +12,7 @@ var chatAudio = document.getElementById('chatAudio');
 var ws = null;
 
 var tabHeard =
-    '<tr >' +
+    '<tr id="tab_title">' +
     '<th width="54">角色</th>' +
     '<th>门派</th>' +
     '<th>等级</th>' +
@@ -19,7 +22,7 @@ var tabHeard =
     '<th>价格</th>' +
     '<th>服务器</th>' +
     '<th>收藏</th>' +
-    '<th>首次上架</th>' +
+    '<th>上架时间</th>' +
     '<th>出售剩余时间</th>' +
     '</tr>'
 
@@ -40,11 +43,8 @@ oConnect.onclick = function () {
             return
         }
 
-        var info = tabHeard
-
         var datas = eval(evt.data)
         for (i in datas) {
-
             //价格
             var priceHtml = ""
 
@@ -59,7 +59,7 @@ oConnect.onclick = function () {
                 priceHtml = '<span class="p1000">' + datas[i].price + "</span>"
             }
             //详情地址
-            var url = "http://xyq.cbg.163.com/equip?s=" + datas[i].server_id + "&amp;eid=" + datas[i].eid + "&amp;o&amp;equip_refer=1"
+            var url = "http://xyq.cbg.163.com/equip?s=" + datas[i].server_id + "&eid=" + datas[i].eid + "&o&equip_refer=1";
 
             //亮点
             var highlights = datas[i].highlights
@@ -68,23 +68,12 @@ oConnect.onclick = function () {
                 highHtml += highlights[index][0] + '<br/>'
             }
 
-            //是否首次上架
-            var sellingTime = Date.parse(new Date(datas[i].selling_time)) / 1000;
-            var createTime = Date.parse(new Date(datas[i].create_time)) / 1000;
+            var fistSell = '<span class="p100000">' + datas[i].create_time + '</span>'
 
-            var fistSell = ""
-            if ((Math.abs(createTime - sellingTime) <= 60)) {
-                var fistSell = "<span class='p100000'>是</span>"
-                info += '<tr class="firstSell" onclick="window.open(\'' + url + '\');">'
-            } else {
-                info += '<tr class="oldSell" onclick="window.open(\'' + url + '\');">'
-            }
 
             //判断是否提醒
             if (i == 0) {
-                if ((Math.abs(createTime - sellingTime) <= 60)) {
-                    chatAudio.play()
-                }
+                chatAudio.play()
             }
 
             //获取头像ID
@@ -99,13 +88,13 @@ oConnect.onclick = function () {
 
             var icon = "http://res.xyq.cbg.163.com/images/role_icon/small/" + iconId + ".gif"
 
-
             //消息拼装
-            info +=
-                '<td>' +
+            var info =
+                '<tr class="firstSell" onclick="window.open(\'' + url + '\');">' +
+                '<td xmlns="http://www.w3.org/1999/html">' +
                 '    <img src="' + icon + '" width="50" height="50"/>' +
                 '</td>' +
-                '<td>' + getSchool(datas[i].school) + '</td>' +
+                '<td><a href="' + url + '" target="_blank"> ' + getSchool(datas[i].school) + '</a></td>' +
                 '<td>' + datas[i].level + '</td>' +
                 '<td>' + datas[i].expt_gongji + "&nbsp;" + datas[i].expt_fangyu + "&nbsp;" + datas[i].expt_fashu + "&nbsp;" + datas[i].expt_kangfa +
                 '</td>' +
@@ -121,12 +110,21 @@ oConnect.onclick = function () {
                 '<td>' + datas[i].time_left + '</td>' +
                 '</tr>'
 
-        }
+            var tr = oResult.insertRow(1);
+            tr.className = "firstSell"
+            tr.onclick = function (ev) {
+                window.open(url)
+            }
 
-        oResult.innerHTML = info
+            // insertCell() 方法用于在 HTML 表的一行的指定位置插入一个空的
+            // td为插入的行的第一个td元素
+            tr.innerHTML = info;
+        }
     }
     ws.onclose = function () {
         oInfo.innerText = "客户端已断开连接"
+
+        oResult.innerHTML = tabHeard
         ws = null
     };
     ws.onerror = function (evt) {
@@ -136,8 +134,17 @@ oConnect.onclick = function () {
 };
 oSend.onclick = function () {
     if (ws) {
-        ws.send(oInput.value);
-    } else {
+
+        var msg = {}
+        msg['level_min'] = oLevelMin.value;
+        msg['level_max'] = oLevelMax.value;
+        msg['price_min'] = oPriceMin.value;
+        msg['price_max'] = oPriceMax.value;
+
+
+        ws.send(JSON.stringify(msg));
+    }
+    else {
         alert("请先连接服务")
     }
 }
