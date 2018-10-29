@@ -59,18 +59,25 @@ open class SchedulingTest {
     @Scheduled(cron = "0/4 * * * * ?") // 每天16点
     fun scheduler() {
 
-        if (WsUtils.onlineCount == 0) {
+        if (WsUtils.config["onlineCount"] == 0) {
             oldInfo.clear()
             return
         }
 
-        val price_max = if (WsUtils.price_max != null) {
-            "&price_max=" + WsUtils.price_max
+
+        val price_min = if (WsUtils.config["price_min"] != null) {
+            "&price_min=" + WsUtils.config["price_min"]
         } else {
             ""
         }
 
-        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=${WsUtils.level_min}&level_max=${WsUtils.level_max}&server_type=3&price_min=${WsUtils.price_min}$price_max&act=recommd_by_role&page=1&count=20&search_type=overall_search_role"
+        val price_max = if (WsUtils.config["price_max"] != null) {
+            "&price_max=" + WsUtils.config["price_max"]
+        } else {
+            ""
+        }
+
+        "http://recommd.xyq.cbg.163.com/cgi-bin/recommend.py?_=${Date().time}&level_min=${WsUtils.config["level_min"]}&level_max=${WsUtils.config["level_max"]}&server_type=3&price_min=$price_min$price_max&act=recommd_by_role&page=1&count=20&search_type=overall_search_role"
                 .get<RespData>()
                 .subscribe({ resp ->
 
@@ -81,7 +88,6 @@ open class SchedulingTest {
                             ?.reversed()
                             ?.forEach {
                                 //是否首次上架
-
                                 val sellingTime = it.selling_time.time(def = 100) / 1000
                                 val createTime = it.create_time.time() / 1000
 

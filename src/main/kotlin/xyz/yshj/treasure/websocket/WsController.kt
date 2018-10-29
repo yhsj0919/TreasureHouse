@@ -22,7 +22,7 @@ class WsController {
     private var session: Session? = null
 
     private val onlineCount: Int
-        @Synchronized get() = WsUtils.onlineCount
+        @Synchronized get() = WsUtils.config["onlineCount"] ?: 0
 
     /**
      * 连接建立成功调用的方法
@@ -69,25 +69,25 @@ class WsController {
             if (!params.isNull("level_min")) {
                 val levelMin = params.getString("level_min").toIntOrNull()
                 if (levelMin != null) {
-                    WsUtils.level_min = levelMin
+                    WsUtils.config["level_min"] = levelMin
                 }
             }
             if (!params.isNull("level_max")) {
                 val levelMax = params.getString("level_max").toIntOrNull()
                 if (levelMax != null) {
-                    WsUtils.level_max = levelMax
+                    WsUtils.config["level_max"] = levelMax
                 }
             }
             if (!params.isNull("price_min")) {
                 val priceMin = params.getString("price_min").toIntOrNull()
                 if (priceMin != null) {
-                    WsUtils.level_min = priceMin * 100
+                    WsUtils.config["price_min"] = priceMin * 100
                 }
             }
             if (!params.isNull("price_max")) {
                 val priceMax = params.getString("price_max").toIntOrNull()
                 if (priceMax != null) {
-                    WsUtils.level_max = priceMax * 100
+                    WsUtils.config["price_max"] = priceMax * 100
                 }
             }
 
@@ -125,11 +125,11 @@ class WsController {
 
     @Synchronized
     private fun addOnlineCount() {
-        WsUtils.onlineCount = WsUtils.onlineCount + 1
+        WsUtils.config["onlineCount"] = (WsUtils.config["onlineCount"] ?: 0) + 1
     }
 
     @Synchronized
     private fun subOnlineCount() {
-        WsUtils.onlineCount = WsUtils.onlineCount - 1
+        WsUtils.config["onlineCount"] = (WsUtils.config["onlineCount"] ?: 0) - 1
     }
 }
