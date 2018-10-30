@@ -56,7 +56,7 @@ open class SchedulingTest {
     //"0 15 10 ? * 6#3" 每月的第三个星期五上午10:15触发
 
 
-    @Scheduled(cron = "0/4 * * * * ?") // 每天16点
+    @Scheduled(cron = "0/2 * * * * ?") // 每天16点
     fun scheduler() {
 
         if (WsUtils.config["onlineCount"] == 0) {

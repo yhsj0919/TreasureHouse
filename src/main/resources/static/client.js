@@ -143,8 +143,7 @@ oSend.onclick = function () {
 
 
         ws.send(JSON.stringify(msg));
-    }
-    else {
+    } else {
         alert("请先连接服务")
     }
 }
@@ -171,7 +170,10 @@ function getSchool(school) {
         12: "盘丝洞",
         13: "神木林",
         14: "凌波城",
-        15: "无底洞"
+        15: "无底洞",
+        16: "女魃墓",
+        17: "天机城",
+        18: "花果山"
     }
     return schoolName[school]
 }
