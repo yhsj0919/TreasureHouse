@@ -2,10 +2,13 @@ package xyz.yshj.treasure
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
-open class TreasureApplication
+@EnableScheduling
+class TreasureApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(TreasureApplication::class.java, *args)
+    runApplication<TreasureApplication>(*args)
 }

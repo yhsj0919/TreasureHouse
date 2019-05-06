@@ -24,31 +24,31 @@ var tabHeard =
     '<th>收藏</th>' +
     '<th>上架时间</th>' +
     '<th>出售剩余时间</th>' +
-    '</tr>'
+    '</tr>';
 
 oConnect.onclick = function () {
     if (ws) {
-        alert("服务已连接")
+        alert("服务已连接");
         return
     }
 
     ws = new WebSocket('ws://' + document.location.host + '/websocket');
     ws.onopen = function () {
         oInfo.innerText = "客户端已连接"
-    }
+    };
     ws.onmessage = function (evt) {
 
         if (!isJSON(evt.data)) {
-            oInfo.innerText = evt.data
+            oInfo.innerText = evt.data;
             return
         }
 
-        var datas = eval(evt.data)
+        var datas = eval(evt.data);
         for (i in datas) {
             //价格
-            var priceHtml = ""
+            var priceHtml = "";
 
-            var tmpPrice = parseFloat(datas[i].price)
+            var tmpPrice = parseFloat(datas[i].price);
             if (tmpPrice > 99999) {
                 priceHtml = '<span class="p1000000">' + datas[i].price + "</span>"
             } else if (tmpPrice > 9999) {
@@ -62,13 +62,13 @@ oConnect.onclick = function () {
             var url = "http://xyq.cbg.163.com/equip?s=" + datas[i].server_id + "&eid=" + datas[i].eid + "&o&equip_refer=1";
 
             //亮点
-            var highlights = datas[i].highlights
-            var highHtml = ""
+            var highlights = datas[i].highlights;
+            var highHtml = "";
             for (index in highlights) {
                 highHtml += highlights[index][0] + '<br/>'
             }
 
-            var fistSell = '<span class="p100000">' + datas[i].create_time + '</span>'
+            var fistSell = '<span class="p100000">' + datas[i].create_time + '</span>';
 
 
             //判断是否提醒
@@ -77,7 +77,7 @@ oConnect.onclick = function () {
             }
 
             //获取头像ID
-            var iconId = 1
+            var iconId = 1;
             if (datas[i].icon > 12 && datas[i].icon < 25) {
                 iconId = datas[i].icon - 12
             } else if (datas[i].icon > 211 && datas[i].icon < 223) {
@@ -86,7 +86,7 @@ oConnect.onclick = function () {
                 iconId = datas[i].icon
             }
 
-            var icon = "http://res.xyq.cbg.163.com/images/role_icon/small/" + iconId + ".gif"
+            var icon = "https://cbg-xyq.res.netease.com/images/role_icon/small/" + iconId + ".gif";
 
             //消息拼装
             var info =
@@ -108,34 +108,34 @@ oConnect.onclick = function () {
                 '<td>' + datas[i].collect_num + '</td>' +
                 '<td>' + fistSell + '</td>' +
                 '<td>' + datas[i].time_left + '</td>' +
-                '</tr>'
+                '</tr>';
 
             var tr = oResult.insertRow(1);
-            tr.className = "firstSell"
+            tr.className = "firstSell";
             tr.onclick = function (ev) {
                 window.open(url)
-            }
+            };
 
             // insertCell() 方法用于在 HTML 表的一行的指定位置插入一个空的
             // td为插入的行的第一个td元素
             tr.innerHTML = info;
         }
-    }
+    };
     ws.onclose = function () {
-        oInfo.innerText = "客户端已断开连接"
+        oInfo.innerText = "客户端已断开连接";
 
-        oResult.innerHTML = tabHeard
+        oResult.innerHTML = tabHeard;
         ws = null
     };
     ws.onerror = function (evt) {
-        oInfo.innerText = "连接出错" + evt.data
+        oInfo.innerText = "连接出错" + evt.data;
         ws = null
     };
 };
 oSend.onclick = function () {
     if (ws) {
 
-        var msg = {}
+        var msg = {};
         msg['level_min'] = oLevelMin.value;
         msg['level_max'] = oLevelMax.value;
         msg['price_min'] = oPriceMin.value;
@@ -146,12 +146,12 @@ oSend.onclick = function () {
     } else {
         alert("请先连接服务")
     }
-}
+};
 oClose.onclick = function () {
     if (ws) {
         ws.close()
     }
-}
+};
 
 
 function getSchool(school) {
@@ -174,7 +174,7 @@ function getSchool(school) {
         16: "女魃墓",
         17: "天机城",
         18: "花果山"
-    }
+    };
     return schoolName[school]
 }
 

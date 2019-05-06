@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <link rel="icon" href="http://xyq.cbg.163.com/favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="http://xyq.cbg.163.com/favicon.ico" type="image/x-icon"/>
     <title>梦幻助手</title>
     <link href="/pages.css" rel="stylesheet" type="text/css" media="all"/>
+
 </head>
 <body>
 <form class="form">
@@ -45,6 +46,7 @@
 <audio id="chatAudio">
     <source src="http://data.huiyi8.com/2014/lxy/05/14/22.mp3" type="audio/mpeg"/>
 </audio>
-<script src="/client.js"/>
+
+<script th:src="@{/client.js}"></script>
 </body>
 </html>

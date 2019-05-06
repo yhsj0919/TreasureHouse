@@ -57,7 +57,6 @@ class WsController {
      */
     @OnMessage
     fun onMessage(message: String, session: Session) {
-
         //        var msg = {
         //                "level_min": oLevelMin.value,
         //                "level_max": oLevelMax.value,

@@ -3,6 +3,7 @@ package xyz.yshj.treasure.scheduling
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.stereotype.Component
 import xyz.yshj.treasure.bean.RespData
 import xyz.yshj.treasure.bean.UserInfoBean
 import xyz.yshj.treasure.utils.*
@@ -15,11 +16,10 @@ import kotlin.collections.ArrayList
  * 定时任务
  * Created by LOVE on 2017/1/3 003.
  */
-@Configuration
-@EnableScheduling
+@Component
 open class SchedulingTest {
 
-    private var oldInfo = ArrayList<String?>()
+    private var oldInfo = hashSetOf<String?>()
 
 
     //    一个cron表达式有至少6个（也可能7个）有空格分隔的时间元素。
@@ -92,7 +92,6 @@ open class SchedulingTest {
                                 val createTime = it.create_time.time() / 1000
 
                                 if (Math.abs(createTime - sellingTime) <= 60) {
-
                                     if (it.eid !in oldInfo) {
                                         tmp.add(it)
                                     }
@@ -106,11 +105,14 @@ open class SchedulingTest {
                         println("不需要推送")
                     }
 
-                    oldInfo.clear()
                     resp.equips?.forEach {
-
                         oldInfo.add(it.eid)
                     }
+
+                    if (oldInfo.size < 20) {
+                        print(oldInfo.json())
+                    }
+
 
                 }, {
                     it.printStackTrace()
